@@ -1,5 +1,6 @@
 import Order from "../models/Order.js";
 import Client from "../models/Client.js";
+import mongoose from "mongoose";
 
 // Mapeo de status BD → app Android
 const statusMap = {

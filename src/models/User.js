@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "vendor", "delivery"],
     default: "delivery" 
+  },
+  fcmToken: {       
+    type: String,
+    default: null
   }
 }, {
   timestamps: true
