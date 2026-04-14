@@ -55,10 +55,10 @@ export const getVendorStats = async (req, res) => {
     res.json({
       totalClients:    totalClients,
       todayOrders:     todayOrders.length,
-      pendingOrders:   allOrders.filter(o => o.status === "pending").length,
-      preparingOrders: allOrders.filter(o => o.status === "preparing").length,
-      onWayOrders:     allOrders.filter(o => o.status === "onWay").length,
-      deliveredOrders: allOrders.filter(o => o.status === "delivered").length,
+      pendingOrders:   allOrders.filter(o => ["pending", "Pendiente"].includes(o.status)).length,
+      preparingOrders: allOrders.filter(o => ["preparing", "Preparando"].includes(o.status)).length,
+      onWayOrders:     allOrders.filter(o => ["onWay", "En camino"].includes(o.status)).length,
+      deliveredOrders: allOrders.filter(o => ["delivered", "Entregado"].includes(o.status)).length,
       recentOrders,
       clients: clientsWithOrders
     });

@@ -219,35 +219,37 @@ export const getDashboard = async (req, res) => {
 
     const totalOrders = await Order.countDocuments();
 
-    const pendingOrders = await Order.countDocuments({
-      status: "pending"
-    });
+const pendingOrders = await Order.countDocuments({
+  status: { $in: ["pending", "Pendiente"] }
+});
 
-    const preparingOrders = await Order.countDocuments({
-      status: "preparing"
-    });
+const preparingOrders = await Order.countDocuments({
+  status: { $in: ["preparing", "Preparando"] }
+});
 
-    const onWayOrders = await Order.countDocuments({
-      status: "onWay"
-    });
+const onWayOrders = await Order.countDocuments({
+  status: { $in: ["onWay", "En camino"] }
+});
 
-    const deliveredOrders = await Order.countDocuments({
-      status: "delivered"
-    });
+const deliveredOrders = await Order.countDocuments({
+  status: { $in: ["delivered", "Entregado"] }
+});
 
-    const revenueData = await Order.aggregate([
-      {
-        $match: {
-          status: "delivered"
-        }
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: "$total" }
-        }
-      }
-    ]);
+
+const revenueData = await Order.aggregate([
+  {
+    $match: {
+      status: { $in: ["delivered", "Entregado"] }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      total: { $sum: "$total" }
+    }
+  }
+]);
+
 
     const totalRevenue =
       revenueData.length > 0

@@ -1,5 +1,5 @@
 import Order from "../models/Order.js";
-
+import { sendNotificationToUser } from "./auth.controller.js"; // ← agregar import
 
 // =========================
 // CREATE ORDER
@@ -31,13 +31,19 @@ export const createOrder = async (req, res) => {
       order: populatedOrder
     });
 
+    // ← Notificar al vendedor que creó la orden
+    await sendNotificationToUser(
+      req.user.id,
+      "📦 Orden creada exitosamente",
+      `Tu pedido por $${total} ha sido registrado correctamente`
+    );
+
   } catch (error) {
     res.status(500).json({
       message: error.message
     });
   }
 };
-
 
 // =========================
 // GET ORDERS
@@ -58,7 +64,6 @@ export const getOrders = async (req, res) => {
   }
 };
 
-
 // =========================
 // DELETE ORDER
 // =========================
@@ -76,7 +81,6 @@ export const deleteOrder = async (req, res) => {
     });
   }
 };
-
 
 // =========================
 // UPDATE STATUS
